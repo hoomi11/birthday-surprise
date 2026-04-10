@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>For My Bestie 💖</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            background: #ffc0cb;
+            overflow: hidden;
+            text-align: center;
+            font-family: 'Pacifico', cursive;
+        }
+
+        .start-screen, .main-content, .letter-page {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .main-content, .letter-page {
+            display: none;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 22px;
+            border-radius: 30px;
+            border: none;
+            background: white;
+            color: pink;
+            cursor: pointer;
+        }
+
+        h1 {
+            color: white;
+            font-size: 60px;
+        }
+
+        .envelope {
+            font-size: 60px;
+            cursor: pointer;
+            margin-top: 20px;
+            animation: pulse 1.5s infinite;
+            display: none;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* LETTER PAGE */
+        .letter-page {
+            width: 100%;
+            height: 100vh;
+            background: #fff0f5;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .paper {
+            background: white;
+            padding: 30px;
+            width: 80%;
+            max-width: 700px;
+            height: 70vh;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow-y: auto;
+        }
+
+        .paper h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 38px;
+            color: #ff69b4;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .message {
+            font-family: 'Dancing Script', cursive;
+            font-size: 22px;
+            color: black;
+            line-height: 1.8;
+            text-align: left;
+        }
+
+        /* Petals */
+        .petal {
+            position: fixed;
+            top: -20px;
+            font-size: 22px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- FIRST SCREEN -->
+    <div class="start-screen" id="startScreen">
+        <button onclick="startSurprise()">Open 💌</button>
+    </div>
+
+    <!-- SECOND SCREEN -->
+    <div class="main-content" id="mainContent">
+        <h1>Happy Birthday Mrugu 💖</h1>
+        <div class="envelope" id="envelope" onclick="openLetter()">💌</div>
+    </div>
+
+    <!-- LETTER PAGE -->
+    <div class="letter-page" id="letterPage">
+        <div class="paper">
+            <h2>Happy Birthday Cutie Patootie 💖</h2>
+            <div class="message" id="typedText"></div>
+        </div>
+    </div>
+
+    <audio id="song" loop>
+        <source src="d:\Instagram meme 1\psychology\a-cheerful-ukulele-waltz.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const message = `Happy Birthday, Mrugu 🤍 It's me Abhidnya. You’re literally not just my friend, you’re my person. You’ve stayed with me through everything, all my ups and downs, and taken care of me like a mom. We fight, we get mad, but somehow we always come back even closer and stronger. Thank you for teaching me stats and for doing things like waiting for me for an hour under my building. You just get me without me saying anything, and that means everything to me. Thank you for always being there for me, no matter what. I love you more than you know 🫶✨
+
+Hello Siddhi here. Happiest birthday to you Mrugu. God gave me pure friendship in form of you, something I never ever thought I would have. I’m really grateful for you and everything you are. I love you so much ❤️
+
+To the cutest and the most adorable tiny being 🐰🎂 It’s me Aashu. You are literally the best person and the purest soul I have met. Never let that shine fade away. I wish you all the love, success and happiness in the world. Thank you for everything and for being such a great support throughout our degree. Love you so much ❤️❤️❤️
+
+Hello baddie, it’s me Bhoomi 💅 Lots of love cutu, happiest birthday tiny princess. I wish you a lot of joy and good health. Thank you so much for always being there, solving all our doubts one day before exams and helping us with everything. You are such a kind and sweet-hearted soul and I want you to stay the same forever and ever and ever... 💖`;
+
+        function startSurprise() {
+            document.getElementById("startScreen").style.display = "none";
+            document.getElementById("mainContent").style.display = "block";
+
+            document.getElementById("song").play();
+
+            for (let i = 0; i < 100; i++) {
+                let petal = document.createElement("div");
+                petal.classList.add("petal");
+                petal.innerHTML = "🌸";
+
+                petal.style.left = Math.random() * window.innerWidth + "px";
+                petal.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+                document.body.appendChild(petal);
+            }
+
+            setTimeout(() => {
+                document.getElementById("envelope").style.display = "block";
+            }, 2000);
+        }
+
+        function openLetter() {
+            document.querySelectorAll(".petal").forEach(p => p.remove());
+
+            document.getElementById("mainContent").style.display = "none";
+            document.body.style.background = "#fff0f5";
+            document.getElementById("letterPage").style.display = "flex";
+
+            typeMessage();
+        }
+
+        function typeMessage() {
+            let i = 0;
+            let speed = 60;
+            let target = document.getElementById("typedText");
+
+            function typing() {
+                if (i < message.length) {
+                    target.innerHTML += message.charAt(i) === "\n" ? "<br><br>" : message.charAt(i);
+                    i++;
+
+                    // auto scroll down while typing
+                    target.parentElement.scrollTop = target.parentElement.scrollHeight;
+
+                    setTimeout(typing, speed);
+                }
+            }
+
+            typing();
+        }
+    </script>
+
+</body>
+</html>
